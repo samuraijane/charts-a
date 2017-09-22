@@ -100,5 +100,5 @@ For more information on why we must include ` <base> ` and why ` HTMLMode ` are 
 ### c030
 Using an arrow function whenever we declare a parameter to ` angular.module ` should be avoided since arrow functions are always anonymous. Read [Aviv Ben-Yosef's](http://www.codelord.net/2016/05/05/using-es6-arrow-functions-in-angular-1-dot-x-plus-cheatsheet/) article for more information.
 
-### c031
+### v031
 This is pseudo-code that can be deleted once you know that you have properly installed the application. To verify that everything is working as it should, you should see the image of a canine at ` / `.
