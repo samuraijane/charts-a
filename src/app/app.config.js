@@ -6,6 +6,6 @@ angular.module('app')
 			controllerAs: 'vm',
 			templateUrl: './src/app/home/home.html'
 		})
-		.otherwise({ redirectTo: '/' });
+		.otherwise({ redirectTo: '/dog' });
 	$locationProvider.html5Mode(true);  //c029
 }]);
