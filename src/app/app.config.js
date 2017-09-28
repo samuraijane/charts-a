@@ -1,5 +1,5 @@
-angular.module('app')
-.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+module.exports = function(app) {
+app.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
 	$routeProvider
 		.when('/', {
 			controller: 'homeCtrl',
@@ -9,3 +9,4 @@ angular.module('app')
 		.otherwise({ redirectTo: '/' });
 	$locationProvider.html5Mode(true);  //c029
 }]);
+}
