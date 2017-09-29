@@ -56657,6 +56657,7 @@ var app = angular.module('app', [route, 'd3', 'britecharts']);
 
 __webpack_require__(467)(app);
 __webpack_require__(468)(app);
+__webpack_require__(470)(app);
 
 /***/ }),
 /* 465 */
@@ -57928,7 +57929,6 @@ module.exports = function (app) {
 
 module.exports = function (app) {
   __webpack_require__(469)(app);
-  __webpack_require__(470)(app);
 };
 
 /***/ }),
@@ -57939,10 +57939,61 @@ module.exports = function (app) {
 
 
 module.exports = function (app) {
+  app.service('dataSrv', ['$http', function ($http) {
+    return {
+      getAccounts: function getAccounts() {
+        return $http({
+          method: 'GET',
+          url: '/mock/accounts.json'
+        });
+      },
+      getColors: function getColors() {
+        return $http({
+          method: 'GET',
+          url: '/mock/colors.json'
+        });
+      },
+      getDog: function getDog() {
+        //c031
+        return $http({
+          method: 'GET',
+          url: 'https://dog.ceo/api/breeds/image/random'
+        });
+      }
+    };
+  }]);
+};
 
-  app.controller('homeCtrl', [function () {
+/***/ }),
+/* 470 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (app) {
+  __webpack_require__(471)(app);
+  __webpack_require__(472)(app);
+  __webpack_require__(473)(app);
+  __webpack_require__(474)(app);
+};
+
+/***/ }),
+/* 471 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (app) {
+
+  app.controller('homeCtrl', ['dataSrv', function (dataSrv) {
     var vm = this;
 
+    // dataSrv.getDog()
+    // .then(res => {
+    //   vm.dog = res.data.message;
+    // });
     // let colors = {
     //   blue: '#5fa6e1',
     //   gold: '#e7b12e',
@@ -58058,7 +58109,7 @@ module.exports = function (app) {
 };
 
 /***/ }),
-/* 470 */
+/* 472 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -58137,6 +58188,93 @@ module.exports = function (app) {
           }
 
           createHorizontalBarChart();
+          createDonutChart();
+        });
+      }
+    };
+  }]);
+};
+
+/***/ }),
+/* 473 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (app) {
+  app.directive('barChart', ['d3Service', 'britechartsService', 'dataSrv', function (d3Service, britechartsService, dataSrv) {
+    return {
+      restrict: 'EA',
+      scope: {},
+      link: function link(scope, element, attrs) {
+        var accounts = void 0;
+        var colors = void 0;
+        dataSrv.getAccounts().then(function (res) {
+          accounts = res.data.accounts;
+        }).then(dataSrv.getColors).then(function (res) {
+          colors = res.data.colors;
+        })
+        // .then(d3Service.d3)
+        // .then(function(d3) {
+        //   console.log('d3 has been loaded');
+        // })
+        .then(britechartsService.britecharts).then(function (britecharts) {
+
+          function createHorizontalBarChart() {
+            var barChart = new britecharts.bar(),
+                margin = {
+              left: 120,
+              right: 20,
+              top: 20,
+              bottom: 30
+            },
+                barContainer = d3.select('.js-bar-container'),
+                containerWidth = barContainer.node() ? barContainer.node().getBoundingClientRect().width : false;
+
+            barChart.isHorizontal(true).margin(margin).width(containerWidth).colorSchema([colors.orange, colors.purple, colors.blue, colors.green, colors.gold]).valueLabel('quantity').xTicks(4).height(300);
+
+            barContainer.datum(accounts).call(barChart);
+          }
+
+          createHorizontalBarChart();
+        });
+      }
+    };
+  }]);
+};
+
+/***/ }),
+/* 474 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+module.exports = function (app) {
+  app.directive('donutChart', ['d3Service', 'britechartsService', 'dataSrv', function (d3Service, britechartsService, dataSrv) {
+    return {
+      restrict: 'EA',
+      scope: {},
+      link: function link(scope, element, attrs) {
+        var accounts = void 0;
+        var colors = void 0;
+        dataSrv.getAccounts().then(function (res) {
+          accounts = res.data.accounts;
+        }).then(dataSrv.getColors).then(function (res) {
+          colors = res.data.colors;
+        }).then(britechartsService.britecharts).then(function (britecharts) {
+
+          function createDonutChart() {
+            var donutChart = britecharts.donut();
+            donutChart.width(400).height(300).colorSchema([colors.orange, colors.purple, colors.blue, colors.green, colors.gold]).isAnimated(true).highlightSliceById(3).on('customMouseOver', function (accounts) {
+              // legendChart.highlight(data.data.id);
+            }).on('customMouseOut', function () {
+              // legendChart.clearHighlight();
+            }).internalRadius(70);
+
+            d3.select('.js-donut-container').datum(accounts).call(donutChart);
+          }
           createDonutChart();
         });
       }

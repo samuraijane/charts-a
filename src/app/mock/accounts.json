@@ -1,0 +1,33 @@
+{
+  "accounts": [{
+      "name": "Line of Credit",
+      "id": 1,
+      "quantity": 7,
+      "value": 2300
+    },
+    {
+      "name": "Checking",
+      "id": 2,
+      "quantity": 15,
+      "value": 6900
+    },
+    {
+      "name": "CD",
+      "id": 3,
+      "quantity": 10,
+      "value": 300
+    },
+    {
+      "name": "Loans",
+      "id": 4,
+      "quantity": 5,
+      "value": 22000
+    },
+    {
+      "name": "Savings",
+      "id": 5,
+      "quantity": 8,
+      "value": 300
+    }
+  ]
+}

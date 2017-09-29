@@ -1,8 +1,12 @@
 module.exports = function(app) {
 
-  app.controller('homeCtrl', [function() {
+  app.controller('homeCtrl', ['dataSrv', function(dataSrv) {
     var vm = this;
 
+    // dataSrv.getDog()
+    // .then(res => {
+    //   vm.dog = res.data.message;
+    // });
     // let colors = {
     //   blue: '#5fa6e1',
     //   gold: '#e7b12e',
@@ -115,5 +119,5 @@ module.exports = function(app) {
     // createDonutChart();
 
 
-  }])
+  }]);
 }

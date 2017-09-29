@@ -3,6 +3,7 @@ const {PORT} = require('./config');
 const app = express();
 
 app.use( '/', express.static(__dirname + '/public') );
+app.use( '/mock', express.static(__dirname + '/src/app/mock') );
 app.use( '/node_modules', express.static(__dirname + '/node_modules') );
 app.use( '/src', express.static(__dirname + '/src') );
 
